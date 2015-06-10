@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Library Special Collections Search Cluster feature.
+ */
+
+include_once 'library_special_collections_search_cluster.features.inc';

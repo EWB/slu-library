@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Library Frontpage Subject Blocks feature.
+ */
+
+include_once 'library_frontpage_subject_blocks.features.inc';

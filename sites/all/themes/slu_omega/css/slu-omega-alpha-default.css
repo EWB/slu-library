@@ -1,0 +1,36 @@
+/* This file will hold styles for all layouts using the alpha grid (i.e. not the mobile layout). */
+
+/*body {
+	 background: url(../images/bg.jpg) no-repeat center center fixed; 
+}*/
+
+.block-logo-slu {
+  display: block;
+}
+
+#zone-branding-wrapper {
+	background: none;
+}
+
+#block-superfish-4 {
+    display: block; 
+}
+/*
+#block-superfish-4 {
+    float: right;
+}*/
+
+.sf-menu.sf-style-pomegranate.sf-navbar {
+    display: block;
+}
+
+#boxes-box-logo_slu_mobile {
+    display: none;
+}
+
+#quickset-site_search {
+    display: none;
+}
+#block-search-form--2 {
+    display: block;
+}

@@ -1,0 +1,322 @@
+/* This file will hold styles that are loaded using the same media query as the narrow grid. */
+/* If you are using the default media queries provided by Omega, these styles will also
+ *  apply to the normal and widescreen layouts. You may override these styles in the normal 
+ *  and widescreen CSS files as appropriate. */
+
+html { 
+  background: url(../images/bg.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  
+}
+
+#zone-branding {
+    background-color: #A90018;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+
+}
+#region-branding-second {
+  background: url("../images/menu-bg.png") repeat-x scroll left top transparent;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  width: 720px;
+}
+
+/*ewb friday*/ #zone-branding-wrapper  #region-branding-second {
+    width: 720px;
+    float: left;
+  }
+#zone-content {
+	min-height: 800px;
+
+}
+.page-node-534 #zone-content {
+  min-height: 250px;
+}
+.page-node-534 #zone-postscript {
+    background-color: #FFFFFF;
+}
+.page-node-534 #zone-postscript h2.block-title {
+    color: #000000;
+  }
+#region-branding-second .sf-menu.sf-style-pomegranate {
+  margin-bottom: 1px;
+  }
+
+/*.logo-img img {
+    width:320px;
+
+}*/
+/**************** hide and seek - START ***************************/
+
+/*#block-views-manuscript-collection-block-1 {
+  display: none;
+}*/
+/*.front #region-postscript-fourth { 
+}*/
+#zone-branding-wrapper {
+            background-color:transparent;
+
+}
+.sf-menu.sf-style-pomegranate.sf-navbar {
+    display: block;
+}
+.block-logo-slu {
+  display: block;
+}
+#boxes-box-logo_slu_mobile {
+    display: none;
+}
+
+
+#block-superfish-4 {
+    display: block;
+}
+
+
+.block-nice-menus-2 {
+    display: block;
+}
+.my-menu {
+	display: block;
+}
+#region-branding-second #block-search-form {
+    display: block;
+}
+#region-menu-second #block-search-form {
+    display: block;
+
+}
+#block-search-form--2 {
+    display: block;
+}
+
+#search-block-form--3 {
+  display: block;
+}
+
+#quickset-site_search {
+    display: none;
+}
+
+/*#block-views-base-announcement-block {
+    display: none;
+
+}
+#block-views-base-announcement-block-1 {
+	display: none;
+}
+
+#block-views-base-announcement-block-3 {
+    display: block;
+
+}*/
+/*#block-views-base-announcement-block-4 {
+    display: none;
+}*/
+.block-superfish-1 {
+    display: block;
+    z-index: 150;
+}
+.block-superfish-2 {
+    display: none;
+}
+.block-superfish-3 {
+    display: block;
+}
+#boxes-box-library_humanities_links ul, #boxes-box-library_sciences_links ul, #boxes-box-library_social_sciences_links ul, #boxes-box-library_general_sources_links ul, #boxes-box-library_interdisciplinary_links ul   {
+
+    padding-left: 4px;
+}
+
+.node-type-library-manuscript-collection .field-name-field-manuscript-image  {
+   /* margin-top: 106px;*/
+    float: left;
+    margin-right: 24px;
+    margin-top: 14px;
+
+}
+.node-library-manuscript-collection .field-name-body {
+  padding-top:24px;
+}
+.page-search .node-library-manuscript-collection .field-name-body {
+  padding-top: 0px;
+}
+.page-search .node-library-manuscript-collection img {
+    /*margin-top: 52px;*/
+    float: right;
+    margin-left: 12px;
+    margin-right: 12px;
+
+}
+.page-search .node-library-guide-or-tutorial img {
+  float: right;
+}
+
+
+/*.front #zone-postscript  .field-content p {
+    max-width:200px;
+
+}
+.front #zone-postscript img {
+
+    width:100px;
+    height: 67px;
+    float:none;
+
+}
+#zone-postscript .block-views .views-row {
+    min-height: 305px;
+}
+*/
+#zone-content-grid h2.block-title {
+
+    font-size: 1.1em;
+
+}
+
+#boxes-box-front_resources_block h2.block-title {
+    margin-bottom: 0px;
+}
+
+#boxes-box-front_resources_block ul.homeres li {
+
+    width:170px;  
+    padding-left: 0px;
+    margin-bottom: 0px;
+
+}
+
+#zone-menu {
+    background: url("../images/black-50.png") repeat scroll left top transparent;
+
+ 
+}
+
+.front .container-12 .grid-2 {
+    width: 330px;
+}
+.front .container-12 .grid-3 {
+    width: 330px;
+}
+.field img  {
+    border: 4px solid #FFFFFF;
+    box-shadow: 0 0 5px #CCCCCC;
+
+}
+.front #zone-postscript .view-manuscript-collections img {
+  float: left;
+}
+.front .view-base-announcement .field-name-field-announcement-images img {
+  float: left;
+}
+
+.sf-menu.sf-style-pomegranate.sf-navbar {
+    margin-top: 0px;
+
+    }
+
+
+#region-branding {
+    width: 220px;
+}
+
+
+
+.node-type-library-staff-profile .field-name-field-staff-profile-photograph {
+      float: left;
+      margin-right: 24px;
+      margin-top: 14px;
+}
+.field-name-field-staff-profile-email {
+  clear:both;
+}
+.field-name-field-staff-profile-bio  {
+      margin-top: 18px;
+}
+
+.view-staff-directory .views-field-field-staff-profile-photograph {
+      float: left;
+      margin-right: 24px;
+      margin-top: 14px;
+}
+
+
+
+.views-field-field-staff-profile-bio  {
+  margin-bottom:12px;
+}
+
+.block-superfish-1 ul.menu li {
+    margin: 0 0 0 0em;
+}
+
+.front #block-views-featured-block   {
+    margin-top: 30px;
+
+}
+
+
+
+    #search-block-form input.form-submit, #search-form input.form-submit, #search-block-form--2 input.form-submit{
+      height: 30px;
+      width: 44px;
+      cursor: pointer;
+      text-indent: -9999px;
+      border: none;
+      background: url("../images/search-icon.png") no-repeat scroll center 6px transparent;
+      z-index: 5500;
+    }
+#block-delta-blocks-site-name  {
+/*    margin-top: 0px;
+    margin-right: 0px;*/
+
+
+} 
+.front #views_slideshow_cycle_teaser_section_featured-block  {
+     width: 300px;
+    height: 188px;
+  
+}
+.front #block-views-featured-block img {
+    width: 300px;
+    height: 188px;
+
+}
+
+#boxes-box-library_db_course_list img {
+   /* padding-right: 6px;
+    padding-left: 6px;*/
+
+}
+
+#block-quicktabs-library-video-search-cluster .ui-tabs-panel {
+    border: 1px solid #DDDDDD;
+    border-radius: 6px 6px 6px 6px;
+    color: #222222;
+    background-color: #C7C5BA;
+    width: 500px;
+    height: 60px;
+    margin-bottom: 20px;
+}   
+
+.block-logo-slu  {
+/*    background-image: url("../images/logo.png");
+    width:280px;
+    height: 100px;*/
+
+}
+
+/*mobile search - START
+*/
+#zone-branding #block-search-form {
+   display: none;
+
+}
+
+/*mobile search - END
+*/

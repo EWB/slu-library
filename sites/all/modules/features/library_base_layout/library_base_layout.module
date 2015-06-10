@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Library Base Layout feature.
+ */
+
+include_once 'library_base_layout.features.inc';

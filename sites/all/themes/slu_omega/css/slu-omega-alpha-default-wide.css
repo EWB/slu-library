@@ -1,0 +1,52 @@
+/* This file will hold styles that are loaded using the same media query as the wide grid. */
+
+#region-branding-second {
+
+	margin-left: 120px;
+}
+
+#quicktabs-library_search_cluster {
+	margin-left: 34px;
+	margin-top: 54px;
+}
+.view-featured-content img {
+    padding-left: 60px;
+
+}
+.front .flex-nav-container {
+    margin-right: 55px;
+
+}
+.context-special-collections .flex-nav-container, .context-ody-library .flex-nav-container {
+	width: 680px;
+	float: left;
+	margin-left: 90px;
+}
+.context-launders-science-library .flex-nav-container, .context-ody-library .flex-nav-container {
+	width: 680px;
+	float: left;
+	margin-left: 90px;
+}
+#boxes-box-library_db_course_list {
+	margin-left: 84px;
+
+}
+#boxes-box-front_resources_block ul.homeres li {
+
+    padding-left: 13px;
+  
+} 
+
+.front .container-12 .grid-2 {
+    width: 280px;
+}
+.front .container-12 .grid-3 {
+    width: 280px;
+}
+
+.view-citation-guides .views-field-title, .view-citation-guides .views-field-body, .view-citation-guides .views-field-field-citation-guide-additional {
+    float: right;
+    overflow: hidden;
+    width: 82%;
+}
+/*ewb test*/
