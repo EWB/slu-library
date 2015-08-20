@@ -12,10 +12,10 @@ class FormBuilderLoader {
 
   protected static $instance = NULL;
   protected $formTypeInfo;
-  protected $elementTypeInfo = array();
   protected $paletteGroupInfo = array();
+  protected $elementTypeInfo = array();
   protected $propertyInfo = array();
-  protected $formCache = [];
+  protected $formCache = array();
 
   /**
    * Get a singleton-like class instance.
@@ -40,30 +40,22 @@ class FormBuilderLoader {
     );
 
     $form_types = module_invoke_all('form_builder_form_types');
-    $element_types = $this->invokeElementTypeInfo();
-    foreach (array_keys($element_types) as $form_type) {
-      $form_types += array($form_type => array());
-    }
-
     foreach ($form_types as $form_type => &$info) {
       $info += $defaults;
-      $element_types += array($form_type => array());
-      foreach ($element_types[$form_type] as &$element_type) {
-        $element_type += array('class' => $info['element class']);
-      }
     }
+    drupal_alter('form_builder_form_types', $form_types);
 
     $this->formTypeInfo = $form_types;
-    $this->elementTypeInfo = $element_types;
   }
 
-  protected function invokeElementTypeInfo() {
-    $form_types = module_invoke_all('form_builder_types');
-    foreach ($form_types as $form_type => &$element_types) {
+  public function getElementTypeInfo($form_type, $form_id) {
+    if (!isset($this->elementTypeInfo[$form_type][$form_id])) {
+      $element_types = module_invoke_all('form_builder_element_types', $form_type, $form_id);
       $groups = $this->getPaletteGroupInfo($form_type);
       // Add default values for undefined properties.
       foreach ($element_types as $key => &$type) {
         $type += array(
+          'class' => $this->formTypeInfo[$form_type]['element class'],
           'configurable' => TRUE,
           'removable' => TRUE,
           'palette_group' => 'default',
@@ -92,13 +84,10 @@ class FormBuilderLoader {
       }
       // Sort fields by weight and title.
       uasort($element_types, '_form_builder_sort');
+      drupal_alter('form_builder_element_types', $element_types, $form_type, $form_id);
+      $this->elementTypeInfo[$form_type][$form_id] = $element_types;
     }
-    drupal_alter('form_builder_types', $form_types);
-    return $form_types;
-  }
-
-  public function getElementTypeInfo($form_type = NULL) {
-    return $form_type ? $this->elementTypeInfo[$form_type] : $this->elementTypeInfo;
+    return $this->elementTypeInfo[$form_type][$form_id];
   }
 
   public function getPaletteGroupInfo($form_type, $reset = FALSE) {
@@ -140,7 +129,7 @@ class FormBuilderLoader {
     }
     $info = $this->formTypeInfo[$form_type];
     $class = $info['class'];
-    return new $class($form_type, $form_id, $sid, $info, $form);
+    return new $class($this, $form_type, $form_id, $sid, $info, $form);
   }
 
   /**
@@ -152,7 +141,7 @@ class FormBuilderLoader {
     }
     $info = $this->formTypeInfo[$form_type];
     $class = $info['class'];
-    return $class::loadFromStorage($form_type, $form_id, $sid, $info);
+    return $class::loadFromStorage($this, $form_type, $form_id, $sid, $info);
   }
 
   /**
@@ -160,7 +149,7 @@ class FormBuilderLoader {
    */
   public function fromCache($form_type, $form_id, $sid = NULL, $reset = FALSE) {
     if ($reset) {
-      $this->formCache = [];
+      $this->formCache = array();
     }
 
     if ($form_type && $form_id) {
@@ -171,7 +160,7 @@ class FormBuilderLoader {
           $info = $this->formTypeInfo[$form_type];
           $class = $info['class'];
           $sid = $sid ? $sid : session_id();
-          if ($form = $class::load($form_type, $form_id, $sid, $info)) {
+          if ($form = $class::load($this, $form_type, $form_id, $sid, $info)) {
             $this->formCache[$form_type][$form_id] = $form;
           }
         }
@@ -184,10 +173,14 @@ class FormBuilderLoader {
   /**
    * Get element instance.
    */
-  public function getElement($form_type, $element_type, $form, &$element) {
-    $info = $this->elementTypeInfo[$form_type][$element_type];
+  public function getElement($form_type, $form_id, $element_type, $form, &$element) {
+    $types = $this->getElementTypeInfo($form_type, $form_id);
+    if (!isset($types[$element_type])) {
+      throw new UnexpectedValueException("Unknown element_type: $form_type - $element_type");
+    }
+    $info = $types[$element_type];
     $class = $info['class'];
-    return new $class($form, $info, $element, $this);
+    return new $class($this, $info, $form, $element);
   }
 }
 
@@ -197,6 +190,8 @@ interface FormBuilderFormInterface {
   /**
    * Load form data from the storage backend (ie. webform components).
    *
+   * @param object $loader
+   *   A FormBuilderLoader instance.
    * @param string $form_type
    *   Name of the form_type.
    * @param mixed $form_id
@@ -206,7 +201,7 @@ interface FormBuilderFormInterface {
    * @param array $params
    *   Additional parameters passed to hook_form_builder_form_types().
    */
-  public static function loadFromStorage($form_type, $form_id, $sid, $params);
+  public static function loadFromStorage($loader, $form_type, $form_id, $sid, $params);
 
   /**
    * Save form data to the storage backend.
@@ -216,6 +211,8 @@ interface FormBuilderFormInterface {
   /**
    * Load a form configuration cache.
    *
+   * @param object $loader
+   *   A FormBuilderLoader instance.
    * @param string $form_type
    *   The type of form being edited.
    * @param mixed $form_id
@@ -224,24 +221,32 @@ interface FormBuilderFormInterface {
    *   User session ID. If NULL session_id() is assumed.
    * @param array $params
    *   Additional parameters passed to hook_form_builder_properties().
+   * @param array $form
+   *   A Form-API array.
    *
    * @return
    *   A FAPI array if a cache entry was found. Boolean FALSE if an entry does not
    *   yet exist. Note that an empty FAPI array may exist, so be sure to use
    *   strict comparison (===) when checking return values.
    */
-  public static function load($form_type, $form_id, $sid, $params);
+  public static function load($loader, $form_type, $form_id, $sid, $params);
 
 
   /**
    * Construct a new instance of this form type class..
    *
+   * @param object $loader
+   *   A FormBuilderLoader instance.
    * @param string $form_type
    *   Name of the form_type.
+   * @param mixed $form_id
+   *   The form's primary key.
+   * @param string $sid
+   *   User session ID.
    * @param array $params
    *   Additional parameters passed to hook_form_builder_properties().
    */
-  public function __construct($form_type, $params, $form);
+  public function __construct($loader, $form_type, $form_id, $sid, $params, $form);
 
   /**
    * Save a form builder cache based on the form structure.
@@ -331,22 +336,22 @@ interface FormBuilderFormInterface {
 
 }
 
-class FormBuilderFormBase implements Serializable {
-
+class FormBuilderFormBase implements FormBuilderFormInterface, Serializable {
+  const CACHE_NAME = 'form_builder_cache';
+  protected $loader;
   protected $formType;
   protected $params;
   protected $properties;
   protected $form;
   protected $formId;
   protected $sid;
-  protected $loader;
-  protected $elementArrays = array();
+  protected $elements = array();
 
   /**
    * Shortcut for creating a form object from a form array.
    */
   public static function fromArray($form) {
-    $fb = $form['#form_builder'] + ['sid' => NULL];
+    $fb = $form['#form_builder'] + array('sid' => NULL);
     return FormBuilderLoader::instance()
       ->getForm($fb['form_type'], $fb['form_id'], $fb['sid'], $form);
   }
@@ -354,10 +359,10 @@ class FormBuilderFormBase implements Serializable {
   /**
    * {@inheritdoc}
    */
-  public static function loadFromStorage($form_type, $form_id, $sid, $params) {
+  public static function loadFromStorage($loader, $form_type, $form_id, $sid, $params) {
     $form = module_invoke_all('form_builder_load', $form_type, $form_id);
     drupal_alter('form_builder_load', $form, $form_type, $form_id);
-    return new static($form_type, $form_id, $sid, $params, $form);
+    return new static($loader, $form_type, $form_id, $sid, $params, $form);
   }
 
   /**
@@ -371,48 +376,39 @@ class FormBuilderFormBase implements Serializable {
   /**
    * {@inheritdoc}
    */
-  public static function load($form_type, $form_id, $sid, $params) {
-    $data = db_select('form_builder_cache', 'fc')
-      ->fields('fc', array('data'))
-      ->condition('type', $form_type)
-      ->condition('form_id', $form_id)
-      ->condition('sid', $sid)
-      ->execute()->fetchField();
-
-    if ($data) {
-      $form = unserialize($data);
-      // Support old non-object data from 1.8 and before.
-      if (is_array($form)) {
-        $form['#form_builder']['form_type'] = $form_type;
-        $form['#form_builder']['form_id'] = $form_id;
-        $form['#form_builder']['sid'] = $sid;
-        $form = new static($form_type, $form_id, $sid, $params, $form);
-      }
-      return $form;
+  public static function load($loader, $form_type, $form_id, $sid, $params) {
+    ctools_include('object-cache');
+    $obj = "$form_type:$form_id";
+    $form = ctools_object_cache_get($obj, self::CACHE_NAME, FALSE, $sid);
+    if ($form && is_array($form)) {
+      $form['#form_builder']['form_type'] = $form_type;
+      $form['#form_builder']['form_id'] = $form_id;
+      $form['#form_builder']['sid'] = $sid;
+      $form = new static($loader, $form_type, $form_id, $sid, $params, $form);
     }
-    return FALSE;
+    return $form;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function __construct($form_type, $form_id, $sid, $params, $form) {
+  public function __construct($loader, $form_type, $form_id, $sid, $params, $form) {
+    $this->loader = $loader;
     $this->formType = $form_type;
     $this->formId = $form_id;
     $this->sid = $sid ? $sid : session_id();
     $this->params = $params;
     $this->properties = NULL;
-    $this->form = &$form;
-
-    $this->form += ['#form_builder' => []];
-    $this->form['#form_builder'] += [
+    $form += array('#form_builder' => array());
+    $form['#form_builder'] += array(
       'form_type' => $this->formType,
       'form_id' => $this->formId,
       'sid' => $this->sid,
-    ];
-    $this->elementArrays[FORM_BUILDER_ROOT] = &$this->form;
-    $this->addDefaults($this->form);
+    );
+    $this->addDefaults($form);
+    $this->form = $this->createElements($form);
     $this->indexElements($this->form);
+    $this->elements[FORM_BUILDER_ROOT] = $this->form;
   }
 
   /**
@@ -421,14 +417,14 @@ class FormBuilderFormBase implements Serializable {
    * NOTE: This should only be used for short-term storage.
    */
   public function serialize() {
-    return serialize([
+    return serialize(array(
       'formType' => $this->formType,
       'formId' => $this->formId,
       'sid' => $this->sid,
       'params' => $this->params,
       'form' => $this->form,
       // Don't save element-arrays and the loader.
-    ]);
+    ));
   }
 
   /**
@@ -436,47 +432,52 @@ class FormBuilderFormBase implements Serializable {
    */
   public function unserialize($data) {
     $data = unserialize($data);
+    $this->loader = FormBuilderLoader::instance();
     $this->formType = $data['formType'];
     $this->formId = $data['formId'];
     $this->sid = $data['sid'];
     $this->params = $data['params'];
     $this->form = $data['form'];
-    $this->properties = [];
-    $this->elementArrays[FORM_BUILDER_ROOT] = &$this->form;
-    $this->addDefaults($this->form);
+    $this->properties = array();
+    if (!($this->form instanceof FormBuilderFormApiNode)) {
+      $this->addDefaults($this->form);
+      $this->createElements($this->form);
+    }
     $this->indexElements($this->form);
+    $this->elements[FORM_BUILDER_ROOT] = $this->form;
   }
 
   /**
    * {@inheritdoc}
    */
   public function save() {
-    $keys = [
-      'sid' => $this->sid,
-      'type' => $this->formType,
-      'form_id' => $this->formId,
-    ];
-    $values = $keys + [
-      'updated' => REQUEST_TIME,
-      'data' => serialize($this),
-    ];
-    $result = db_merge('form_builder_cache')
-      ->key($keys)->fields($values)->execute();
-
-    // Ensure caches are fresh for any retrievals made this request.
-    FormBuilderLoader::instance()->fromCache(NULL, NULL, NULL, TRUE);
-    return $result;
+    ctools_include('object-cache');
+    $obj = "{$this->formType}:{$this->formId}";
+    ctools_object_cache_set($obj, self::CACHE_NAME, $this, $this->sid);
   }
 
   /**
    * {@inheritdoc}
    */
   public function delete() {
-    return db_delete('form_builder_cache')
-      ->condition('sid', $this->sid)
-      ->condition('type', $this->formType)
-      ->condition('form_id', $this->formId)
+    ctools_include('object-cache');
+    $obj = "{$this->formType}:{$this->formId}";
+    ctools_object_cache_clear($obj, self::CACHE_NAME, FALSE, $this->sid);
+  }
+
+  /**
+   * Purge old cache entries.
+   *
+   * @param int $max_age
+   *   All form_builder_cache entries older than $max_age seconds are purged.
+   */
+  public static function purge($max_age = NULL) {
+    $expire = isset($max_age) ? $max_age : ini_get('session.cache_expire');
+    return db_delete('ctools_object_cache')
+      ->condition('name', 'form_builder_cache')
+      ->condition('updated', REQUEST_TIME - $max_age, '<')
       ->execute();
+    drupal_static_reset('ctools_object_cache_get');
   }
 
   /**
@@ -491,30 +492,30 @@ class FormBuilderFormBase implements Serializable {
    */
   protected function addDefaults(&$element, $parent_id = FORM_BUILDER_ROOT, $key = NULL, &$element_info = NULL) {
     if (!$element_info) {
-      $element_info = FormBuilderLoader::instance()->getElementTypeInfo($this->formType);
+      $element_info = FormBuilderLoader::instance()->getElementTypeInfo($this->formType, $this->formId);
     }
     if (isset($element['#form_builder']['element_id'])) {
       $element_id = $element['#form_builder']['element_id'];
       if (isset($element['#type']) && (!isset($element['#pre_render']) || !in_array('form_builder_pre_render', $element['#pre_render']))) {
         $element['#pre_render'] = array_merge(
-          element_info_property($element['#type'], '#pre_render', []),
-          ['form_builder_pre_render']
+          element_info_property($element['#type'], '#pre_render', array()),
+          array('form_builder_pre_render')
         );
       }
-      $element += ['#key' => $key];
+      $element += array('#key' => $key);
       $element['#form_builder']['form_type'] = $this->formType;
       $element['#form_builder']['form_id'] = $this->formId;
       $element['#form_builder']['parent_id'] = $parent_id;
 
       // Set defaults based on the form type.
-      $settings = [];
+      $settings = array();
       if (isset($element_info[$element_id]) && $element_info[$element_id]['unique']) {
         $element['#form_builder']['unique'] = TRUE;
-        $element['#form_builder'] += ['element_type' => $element_id];
+        $element['#form_builder'] += array('element_type' => $element_id);
         $settings = $element_info[$element_id];
       }
       else {
-        $element['#form_builder'] += ['element_type' => $element['#type']];
+        $element['#form_builder'] += array('element_type' => $element['#type']);
         if (isset($element_info[$element['#form_builder']['element_type']])) {
           $settings = $element_info[$element['#form_builder']['element_type']];
         }
@@ -526,11 +527,11 @@ class FormBuilderFormBase implements Serializable {
       }
 
       // Set defaults for configurable and removable.
-      $settings += ['configurable' => TRUE, 'removable' => TRUE];
-      $element['#form_builder'] += [
+      $settings += array('configurable' => TRUE, 'removable' => TRUE);
+      $element['#form_builder'] += array(
         'configurable' => $settings['configurable'],
         'removable' => $settings['removable'],
-      ];
+      );
       $parent_id = $element_id;
     }
     foreach (element_children($element) as $key) {
@@ -539,18 +540,52 @@ class FormBuilderFormBase implements Serializable {
   }
 
   /**
-   * Add the element and it's subelements to the elementd index.
-   *
-   * The index is stored in $this->elementArrays and used by all element_id
-   * based methods.
+   * Create a tree of element objects out of an array.
    */
-  protected function indexElements(&$element) {
-    if (isset($element['#form_builder']['element_id'])) {
-      $element_id = $element['#form_builder']['element_id'];
-      $this->elementArrays[$element_id] = &$element;
+  protected function createElements(&$element) {
+    $child_keys = element_children($element);
+    $element_array = $element;
+    foreach ($child_keys as $key) {
+      unset($element_array[$key]);
     }
-    foreach (element_children($element) as $key) {
-      $this->indexElements($element[$key]);
+    // Create the element.
+    if (isset($element['#form_builder']['element_type'])) {
+      $type = $element['#form_builder']['element_type'];
+      $e = $this->loader->getElement($this->formType, $this->formId, $type, $this, $element_array);
+    }
+    else {
+      $e = new FormBuilderFormApiNode($element_array);
+    }
+    // Add all childs.
+    foreach ($child_keys as $key) {
+      $child = $this->createElements($element[$key]);
+      $e->insertChild($child);
+      $child->setParent($e);
+    }
+    return $e;
+  }
+
+  /**
+   * Index elements.
+   */
+  protected function indexElements($element) {
+    if ($element instanceof FormBuilderElementInterface) {
+      $this->elements[$element->getId()] = $element;
+    }
+    foreach ($element->getChildren() as $child) {
+      $this->indexElements($child);
+    }
+  }
+
+  /**
+   * Remove an element and it's children from the index.
+   */
+  protected function unindexElements($element) {
+    if ($element instanceof FormBuilderElementInterface) {
+      unset($this->elements[$element->getId()]);
+    }
+    foreach ($element->getChildren() as $child) {
+      $this->unindexElements($child);
     }
   }
 
@@ -558,17 +593,18 @@ class FormBuilderFormBase implements Serializable {
    * {@inheritdoc}
    */
   public function getElement($element_id) {
-    $element = &$this->elementArrays[$element_id];
-    return FormBuilderLoader::instance()
-      ->getElement($this->formType, $element['#form_builder']['element_type'], $this, $element);
+    if (isset($this->elements[$element_id])) {
+      return $this->elements[$element_id];
+    }
+    return FALSE;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getElementArray($element_id) {
-    if (isset($this->elementArrays[$element_id])) {
-      return $this->elementArrays[$element_id];
+    if ($element = $this->getElement($element_id)) {
+      return $element->render();
     }
     return FALSE;
   }
@@ -590,7 +626,7 @@ class FormBuilderFormBase implements Serializable {
    * {@inheritdoc}
    */
   public function getFormArray() {
-    return $this->form;
+    return $this->form->render();
   }
 
   /**
@@ -598,8 +634,9 @@ class FormBuilderFormBase implements Serializable {
    */
   public function setElementArray($element, $parent_id = FORM_BUILDER_ROOT, $alter = FALSE) {
     $return = FALSE;
+    $element += array('#form_builder' => array('element_id' => NULL));
     $element_id = $element['#form_builder']['element_id'];
-    $element['#form_builder'] += ['parent_id' => $parent_id];
+    $element['#form_builder'] += array('parent_id' => $parent_id);
     $parent_id = $element['#form_builder']['parent_id'];
 
     if ($alter) {
@@ -610,68 +647,50 @@ class FormBuilderFormBase implements Serializable {
       // Re-run addDefaults in case something has changed
     }
     $this->addDefaults($element, $parent_id);
+    $element = $this->createElements($element);
 
-    if (!isset($element['#form_builder'])) {
-      return FALSE;
-    }
-
-    if (isset($this->elementArrays[$parent_id])) {
-      $parent = &$this->elementArrays[$parent_id];
-    }
-    else {
+    if (!($parent = $this->getElement($parent_id))) {
       return FALSE;
     }
 
     $old_element = FALSE;
-    if (isset($this->elementArrays[$element_id])) {
-      $old_element = &$this->elementArrays[$element_id];
-      // Remove element from old parent if needed.
-      if ($parent_id !== $old_element['#form_builder']['parent_id']) {
-        $old_parent =& $this->elementArrays[$old_element['#form_builder']['parent_id']];
-        unset($old_parent[$old_element['#key']]);
-        unset($old_element);
-        unset($old_parent);
-        $old_element = FALSE;
+    if ($element_id) {
+      if ($old_element = $this->getElement($element_id)) {
+        // Remove element from old parent if needed.
+        if ($old_parent = $old_element->getParent()) {
+          if ($old_parent != $parent) {
+            $old_parent->removeChild($old_element);
+          }
+        }
+        $this->unindexElements($old_element);
       }
     }
 
-    if ($old_element && $old_element['#key'] != $element['#key']) {
-      // Insert the (changed) element at the same position in the parent.
-      $new_parent = array();
-      foreach($parent as $key => &$child) {
-        if ($key == $old_element['#key']) {
-          $new_parent[$element['#key']] = &$element;
-        }
-        else {
-          $new_parent[$key] = &$child;
-        }
-      }
-      $parent = $new_parent;
-    }
-    else {
-      $parent[$element['#key']] = &$element;
-    }
+    $old_key = $old_element ? $old_element->getKey() : FALSE;
+    $parent->insertChild($element, $old_key);
+    $element->setParent($parent);
     $this->indexElements($element);
 
-    return $element_id;
+    return $element;
   }
 
   /**
    * {@inheritdoc}
    */
   public function unsetElement($element_id) {
-    $element = $this->elementArrays[$element_id];
-    unset($this->elementArrays[$element_id]);
-    $parent = &$this->elementArrays[$element['#form_builder']['parent_id']];
-    unset($parent[$element['#key']]);
+    $element = $this->elements[$element_id];
+    if ($parent = $element->getParent()) {
+      $parent->removeChild($element);
+    }
+    $this->unindexElements($element);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getElementIds() {
-    $ids = [];
-    foreach (array_keys($this->elementArrays) as $id) {
+    $ids = array();
+    foreach (array_keys($this->elements) as $id) {
       if ($id !== FORM_BUILDER_ROOT) {
         $ids[] = $id;
       }
@@ -684,9 +703,10 @@ class FormBuilderFormBase implements Serializable {
    */
   public function getElementTypes() {
     $types = array();
-    foreach ($this->elementArrays as $element) {
-      if (isset($element['#form_builder']['element_type'])) {
-        $types[$element['#form_builder']['element_type']] = TRUE;
+    foreach ($this->elements as $element) {
+      $a = $element->render();
+      if (isset($a['#form_builder']['element_type'])) {
+        $types[$a['#form_builder']['element_type']] = TRUE;
       }
     }
     return array_keys($types);
@@ -709,9 +729,82 @@ class FormBuilderFormBase implements Serializable {
 
 }
 
+interface FormBuilderFormNodeInterface {
+  public function getKey();
+  public function setParent($parent);
+  public function getParent();
+  public function insertChild($node);
+  public function removeChild($key_or_node);
+  public function getChildren();
 
-interface FormBuilderElementInterface {
-  public function __construct($form_type, $params, &$element, $loader);
+
+  public function render();
+}
+
+class FormBuilderFormNode implements FormBuilderFormNodeInterface {
+  protected $parent = NULL;
+  protected $children = array();
+  protected $element;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getKey() {
+    return $this->element['#key'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setParent($node) {
+    $this->parent = $node;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getParent() {
+    return $this->parent;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function insertChild($node, $old_key = FALSE) {
+    $new_key = $node->getKey();
+    if ($old_key && $old_key != $new_key) {
+      $children = array();
+      foreach($this->children as $key => $child) {
+        if ($key == $old_key) {
+          $children[$new_key] = $node;
+        }
+        else {
+          $children[$key] = $child;
+        }
+      }
+      $this->children = $children;
+    }
+    else {
+      $this->children[$node->getKey()] = $node;
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function removeChild($node_or_key) {
+    if ($node_or_key instanceof FormBuilderFormNodeInterface) {
+      $node_or_key = $node_or_key->getKey();
+    }
+    unset($this->children[$node_or_key]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getChildren() {
+    return $this->children;
+  }
 
   /**
    * (Re-)Render an element.
@@ -720,7 +813,35 @@ interface FormBuilderElementInterface {
    *   New FAPI array reflecting all the changes made prior to callig this
    *   method.
    */
-  public function render();
+  public function render() {
+    $element = $this->element;
+    foreach ($this->children as $key => $child) {
+      $element[$key] = $child->render();
+    }
+    return $element;
+  }
+
+  public function formParents() {
+    if (!$this->parent) {
+      return array();
+    }
+    $parents = $this->parent->formParents();
+    $parents[] = $this->getKey();
+    return $parents;
+  }
+
+}
+
+class FormBuilderFormApiNode extends FormBuilderFormNode {
+  public function __construct(&$element) {
+    $this->element = $element;
+  }
+}
+
+interface FormBuilderElementInterface {
+  public function __construct($loader, $params, $form, &$element);
+
+  public function getId();
 
   /**
    * Get a list of properties available for this element.
@@ -756,23 +877,23 @@ interface FormBuilderElementInterface {
 }
 
 
-class FormBuilderElementBase implements FormBuilderElementInterface {
+class FormBuilderElementBase extends FormBuilderFormNode implements FormBuilderElementInterface {
   protected $form;
   protected $params;
-  protected $element;
   protected $loader;
-  public function __construct($form, $params, &$element, $loader) {
+  public function __construct($loader, $params, $form, &$element) {
     $this->form = $form;
     $this->params = $params;
-    $this->element = &$element;
+    // @TODO Don't assume that $element has defaults set.
+    $this->element = $element;
     $this->loader = $loader;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function render() {
-    return $this->element;
+  public function getId() {
+    return $this->element['#form_builder']['element_id'];
   }
 
   /**
