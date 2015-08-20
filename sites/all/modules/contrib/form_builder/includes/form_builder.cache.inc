@@ -43,7 +43,11 @@ function form_builder_cache_delete($form_type, $form_id, $sid = NULL) {
  *   The maximum amount of time allowed for entries to be kept, in seconds.
  */
 function form_builder_cache_purge($expire_threshold = NULL) {
-  FormBuilderFormBase::purge($expire_threshold);
+  $expire_threshold = isset($expire_threshold) ? $expire_threshold : ini_get('session.cache_expire');
+
+  return db_delete('form_builder_cache')
+    ->condition('updated', REQUEST_TIME - $expire_threshold, '<')
+    ->execute();
 }
 
 /**

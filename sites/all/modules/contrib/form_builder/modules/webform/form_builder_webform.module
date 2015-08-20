@@ -168,15 +168,12 @@ function form_builder_webform_form_builder_form_types() {
 }
 
 /**
- * Implements hook_form_builder_element_types().
+ * Implements hook_form_builder_types().
  *
- * Define the element types within webforms that are editable.
+ * Define the fields within webforms that are editable.
  */
-function form_builder_webform_form_builder_element_types($form_type, $form_id) {
-  if ($form_type != 'webform') {
-    return;
-  }
-  $types = array();
+function form_builder_webform_form_builder_types() {
+  $fields = array();
 
   $components = webform_components();
   foreach ($components as $type => $component) {
@@ -188,11 +185,11 @@ function form_builder_webform_form_builder_element_types($form_type, $form_id) {
           }
         }
       }
-      $types = array_merge($types, $additional_fields);
+      $fields = array_merge($fields, $additional_fields);
     }
   }
 
-  return $types;
+  return array('webform' => $fields);
 }
 
 /**

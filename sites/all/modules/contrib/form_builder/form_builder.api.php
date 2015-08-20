@@ -34,31 +34,19 @@ function hook_form_builder_form_types() {
   return $types;
 }
 
-/**
- * Alter the form types defined by other modules.
- *
- * @see hook_form_builder_form_types().
- */
-function hook_form_builder_form_types_alter(&$types) {
-  $types['webform']['element class'] = 'ExtendedWebformElementBase';
-}
 
 /**
- * Define the elements and properties supported by a form.
+ * Define the fields and properties supported by a form type.
  *
  * All modules that wish to create an configurable form need implement this hook. It
- * defines to Form Builder what types of elements the implementing module knows
- * how to modify. Within each element that is modifiable, the properties that
+ * defines to Form Builder what types of fields the implementing module knows
+ * how to modify. Within each field that is modifiable, the properties that
  * may be changed are also listed.
  *
- * @param string $form_type
- *   The form type of the form as declared in hook_form_builder_form_types().
- * @param mixed $form_id
- *   The ID of the form.
- *
  * @return
- *   An array of available elements types for this form. Each field contains
- *   the following properties:
+ *   An array of form types that this module may edit. Within each form type,
+ *   a list of fields that can be edited. Each field contains the following
+ *   properties:
  *   - class: The class used to handle this element type. Defaults to the
  *     'element class' attribute of the form type.
  *   - title: The name of the field type that is displayed in the new fields
@@ -69,15 +57,11 @@ function hook_form_builder_form_types_alter(&$types) {
  *     element of this type is added to the form. Further modification of this
  *     default element may be done in hook_form_builder_element_alter().
  */
-function hook_form_builder_element_types($form_type, $form_id) {
-  if ($form_type != 'node') {
-    return;
-  }
-
-  $types = array();
+function hook_form_builder_types() {
+  $fields = array();
 
   // The #type property of the field is used as the key.
-  $types['textfield'] = array(
+  $fields['textfield'] = array(
     'title' => t('Textfield'),
     // Properties that may be edited on this field type.
     'properties' => array(
@@ -102,19 +86,22 @@ function hook_form_builder_element_types($form_type, $form_id) {
     // 'unique' => TRUE,
   );
 
-  // Return the array of supported element types.
-  return $types;
+  // Return the array of supported fields, with a key for the form type that
+  // these fields apply to.
+  return array(
+    'node' => $fields,
+  );
 }
 
 /**
  * Modify fields and properties that are declared by other modules.
  *
- * @see hook_form_builder_element_types()
+ * @see hook_form_builder_types()
  */
-function hook_form_builder_element_types_alter(&$types, $form_type, $form_id) {
-  if ($form_type == 'webform') {
+function hook_form_builder_types_alter(&$types) {
+  if (!empty($types['webform']['textfield']['properties'])) {
     // Add our new placeholder properties for the webform textfield component.
-    $types['textfield']['properties'][] = 'placeholder';
+    $types['webform']['textfield']['properties'][] = 'placeholder';
   }
 }
 
