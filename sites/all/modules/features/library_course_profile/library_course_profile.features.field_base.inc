@@ -308,32 +308,6 @@ Prof.',
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_subjects'.
-  $field_bases['field_subjects'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_subjects',
-    'indexes' => array(
-      'tid' => array(
-        0 => 'tid',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'taxonomy',
-    'settings' => array(
-      'allowed_values' => array(
-        0 => array(
-          'vocabulary' => 'library_subjects',
-          'parent' => 0,
-        ),
-      ),
-    ),
-    'translatable' => 0,
-    'type' => 'taxonomy_term_reference',
-  );
-
   // Exported field_base: 'group_group'.
   $field_bases['group_group'] = array(
     'active' => 1,

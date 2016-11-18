@@ -56,7 +56,6 @@ features[variable][] = node_options_library_manuscript_collection
 features[variable][] = node_preview_library_manuscript_collection
 features[variable][] = node_submitted_library_manuscript_collection
 features[variable][] = pathauto_node_library_manuscript_collection_pattern
-features[variable][] = pathauto_taxonomy_term_library_subjects_pattern
 features[variable][] = pathauto_taxonomy_term_resource_types_pattern
 features[views_view][] = manuscript_collections
 features_exclude[dependencies][file] = file
