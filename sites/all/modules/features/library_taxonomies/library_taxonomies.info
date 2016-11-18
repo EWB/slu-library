@@ -2,18 +2,15 @@ name = Library Taxonomies
 description = Collection of vocabularies and tags
 core = 7.x
 package = Features
-php = 5.2.4
-version = 7.x-1.0-beta2
+version = unknown
 project = library_taxonomies
 dependencies[] = features
+dependencies[] = strongarm
 dependencies[] = taxonomy
-features[features_api][] = api:1
+datestamp = 1358536206
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
 features[taxonomy][] = library_subjects
 features[taxonomy][] = semester
-
-
-; Information added by drush on 2013-01-18
-version = "unknown"
-project = "library_taxonomies"
-datestamp = "1358536206"
-
+features[variable][] = pathauto_taxonomy_term_library_subjects_pattern
+features[variable][] = pathauto_taxonomy_term_semester_pattern

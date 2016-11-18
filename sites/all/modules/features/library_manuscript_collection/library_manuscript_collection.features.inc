@@ -7,8 +7,7 @@
 /**
  * Implements hook_ctools_plugin_api().
  */
-function library_manuscript_collection_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
+function library_manuscript_collection_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -17,7 +16,7 @@ function library_manuscript_collection_ctools_plugin_api() {
 /**
  * Implements hook_views_api().
  */
-function library_manuscript_collection_views_api() {
+function library_manuscript_collection_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
@@ -35,5 +34,6 @@ function library_manuscript_collection_node_info() {
       'help' => '',
     ),
   );
+  drupal_alter('node_info', $items);
   return $items;
 }

@@ -28,11 +28,11 @@ function library_search_cluster_mobile_quicktabs_default_quicktabs() {
     ),
     1 => array(
       'nid' => '',
-      'teaser' => 0,
       'hide_title' => 1,
       'title' => 'Hidden',
       'weight' => '-98',
       'type' => 'node',
+      'view_mode' => 'full',
     ),
     2 => array(
       'bid' => 'boxes_delta_journal_search_mobile',

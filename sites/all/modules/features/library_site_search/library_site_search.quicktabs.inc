@@ -21,11 +21,11 @@ function library_site_search_quicktabs_default_quicktabs() {
   $quicktabs->tabs = array(
     0 => array(
       'nid' => '',
-      'teaser' => 0,
       'hide_title' => 1,
       'title' => 'Hidden',
       'weight' => '-100',
       'type' => 'node',
+      'view_mode' => 'full',
     ),
     1 => array(
       'bid' => 'search_delta_form',

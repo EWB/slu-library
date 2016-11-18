@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function library_course_profile_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -30,12 +30,12 @@ function library_course_profile_field_group_info() {
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-course-citation-guide-tab field-group-htab',
         'required_fields' => 1,
       ),
     ),
   );
-  $export['group_course_citation_guide_tab|node|base_course_profile|form'] = $field_group;
+  $field_groups['group_course_citation_guide_tab|node|base_course_profile|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -57,12 +57,12 @@ function library_course_profile_field_group_info() {
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-course-citation-guide-tab field-group-htab',
         'required_fields' => 1,
       ),
     ),
   );
-  $export['group_course_citation_guide_tab|node|base_course_profile|full'] = $field_group;
+  $field_groups['group_course_citation_guide_tab|node|base_course_profile|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -84,12 +84,12 @@ function library_course_profile_field_group_info() {
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-course-db-tab field-group-htab',
         'required_fields' => 1,
       ),
     ),
   );
-  $export['group_course_db_tab|node|base_course_profile|form'] = $field_group;
+  $field_groups['group_course_db_tab|node|base_course_profile|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -111,12 +111,12 @@ function library_course_profile_field_group_info() {
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-course-db-tab field-group-htab',
         'required_fields' => 1,
       ),
     ),
   );
-  $export['group_course_db_tab|node|base_course_profile|full'] = $field_group;
+  $field_groups['group_course_db_tab|node|base_course_profile|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -140,11 +140,11 @@ function library_course_profile_field_group_info() {
     'format_settings' => array(
       'formatter' => '',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-course-picklist-tab field-group-htabs',
       ),
     ),
   );
-  $export['group_course_picklist_tab|node|base_course_profile|form'] = $field_group;
+  $field_groups['group_course_picklist_tab|node|base_course_profile|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -168,11 +168,11 @@ function library_course_profile_field_group_info() {
     'format_settings' => array(
       'formatter' => '',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-course-picklist-tab field-group-htabs',
       ),
     ),
   );
-  $export['group_course_picklist_tab|node|base_course_profile|full'] = $field_group;
+  $field_groups['group_course_picklist_tab|node|base_course_profile|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -194,12 +194,12 @@ function library_course_profile_field_group_info() {
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-course-readings field-group-htab',
         'required_fields' => 1,
       ),
     ),
   );
-  $export['group_course_readings|node|base_course_profile|form'] = $field_group;
+  $field_groups['group_course_readings|node|base_course_profile|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -221,12 +221,12 @@ function library_course_profile_field_group_info() {
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-course-readings field-group-htab',
         'required_fields' => 1,
       ),
     ),
   );
-  $export['group_course_readings|node|base_course_profile|full'] = $field_group;
+  $field_groups['group_course_readings|node|base_course_profile|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -248,11 +248,11 @@ function library_course_profile_field_group_info() {
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-course-research-guides-tab field-group-htab',
       ),
     ),
   );
-  $export['group_course_research_guides_tab|node|base_course_profile|full'] = $field_group;
+  $field_groups['group_course_research_guides_tab|node|base_course_profile|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -274,12 +274,20 @@ function library_course_profile_field_group_info() {
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-course-research-guide field-group-htab',
         'required_fields' => 1,
       ),
     ),
   );
-  $export['group_course_research_guide|node|base_course_profile|form'] = $field_group;
+  $field_groups['group_course_research_guide|node|base_course_profile|form'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Citation Guides');
+  t('Databases');
+  t('Readings');
+  t('Research Guides');
+  t('Tabs');
+
+  return $field_groups;
 }

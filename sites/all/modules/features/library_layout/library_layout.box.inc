@@ -19,7 +19,7 @@ function library_layout_default_box() {
   $box->description = 'SLU Logo';
   $box->options = array(
     'body' => array(
-      'value' => '<p><a href="http://www.stlawu.edu"><img alt="St. Lawrence University" src="./sites/default/files/logo.png" align="left" height="100" width="280"></a></p>',
+      'value' => '<p><a href="http://www.stlawu.edu"><img alt="St. Lawrence University" src="http://www.stlawu.edu/library/sites/default/files/logo.png" align="left" height="100" width="280"></a></p>',
       'format' => 'richtext_editor',
     ),
     'additional_classes' => '',
@@ -35,7 +35,7 @@ function library_layout_default_box() {
   $box->description = 'SLU Logo Mobile';
   $box->options = array(
     'body' => array(
-      'value' => '<p><img alt="St. Lawrence University" src="http://dev.stlawu.edu/library-alpha/sites/default/files/logo-mobile.png" align="left" height="71" width="199"></p>',
+      'value' => '<p><a href="http://www.stlawu.edu"><img alt="St. Lawrence University" src="http://www.stlawu.edu/library/sites/default/files/logo-mobile.png" height="71" align="left" width="199"></a></p>',
       'format' => 'richtext_editor',
     ),
     'additional_classes' => '',

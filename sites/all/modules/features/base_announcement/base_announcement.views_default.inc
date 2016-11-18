@@ -37,7 +37,6 @@ function base_announcement_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'slideshow';
   $handler->display->display_options['style_options']['row_class'] = 'block-announcements';
-  $handler->display->display_options['style_options']['class'] = 'announcement-slider';
   $handler->display->display_options['style_options']['slideshow_type'] = 'views_slideshow_cycle';
   $handler->display->display_options['style_options']['slideshow_skin'] = 'default';
   $handler->display->display_options['style_options']['skin_info'] = array(

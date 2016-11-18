@@ -13,9 +13,9 @@ function library_taxonomies_taxonomy_default_vocabularies() {
       'name' => 'Subjects',
       'machine_name' => 'library_subjects',
       'description' => '',
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => '0',
+      'weight' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
@@ -36,9 +36,9 @@ function library_taxonomies_taxonomy_default_vocabularies() {
       'name' => 'Semester',
       'machine_name' => 'semester',
       'description' => '',
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => '0',
+      'weight' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',

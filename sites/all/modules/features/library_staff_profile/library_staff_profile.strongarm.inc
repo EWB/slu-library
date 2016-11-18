@@ -104,6 +104,9 @@ function library_staff_profile_strongarm() {
         'path' => array(
           'weight' => '10',
         ),
+        'xmlsitemap' => array(
+          'weight' => '30',
+        ),
       ),
       'display' => array(),
     ),
@@ -149,6 +152,20 @@ function library_staff_profile_strongarm() {
   $strongarm->name = 'node_submitted_library_staff_profile';
   $strongarm->value = 0;
   $export['node_submitted_library_staff_profile'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_library_staff_profile_pattern';
+  $strongarm->value = '[node:title]';
+  $export['pathauto_node_library_staff_profile_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_taxonomy_term_library_deparments_pattern';
+  $strongarm->value = '';
+  $export['pathauto_taxonomy_term_library_deparments_pattern'] = $strongarm;
 
   return $export;
 }

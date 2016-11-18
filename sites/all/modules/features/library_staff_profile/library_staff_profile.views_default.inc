@@ -190,7 +190,7 @@ function library_staff_profile_views_default_views() {
   $handler->display->display_options['fields']['field_staff_profile_phone']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_staff_profile_phone']['delta_offset'] = '0';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Content: Name (field_staff_profile_name:family) */
+  /* Sort criterion: Name Components: Family */
   $handler->display->display_options['sorts']['field_staff_profile_name_family']['id'] = 'field_staff_profile_name_family';
   $handler->display->display_options['sorts']['field_staff_profile_name_family']['table'] = 'field_data_field_staff_profile_name';
   $handler->display->display_options['sorts']['field_staff_profile_name_family']['field'] = 'field_staff_profile_name_family';
@@ -276,7 +276,7 @@ function library_staff_profile_views_default_views() {
   $handler->display->display_options['sorts']['field_staff_profile_department_tid']['id'] = 'field_staff_profile_department_tid';
   $handler->display->display_options['sorts']['field_staff_profile_department_tid']['table'] = 'field_data_field_staff_profile_department';
   $handler->display->display_options['sorts']['field_staff_profile_department_tid']['field'] = 'field_staff_profile_department_tid';
-  /* Sort criterion: Content: Name (field_staff_profile_name:family) */
+  /* Sort criterion: Name Components: Family */
   $handler->display->display_options['sorts']['field_staff_profile_name_family']['id'] = 'field_staff_profile_name_family';
   $handler->display->display_options['sorts']['field_staff_profile_name_family']['table'] = 'field_data_field_staff_profile_name';
   $handler->display->display_options['sorts']['field_staff_profile_name_family']['field'] = 'field_staff_profile_name_family';
@@ -373,7 +373,7 @@ function library_staff_profile_views_default_views() {
   $handler->display->display_options['fields']['field_staff_profile_bio']['label'] = '';
   $handler->display->display_options['fields']['field_staff_profile_bio']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Content: Name (field_staff_profile_name:family) */
+  /* Sort criterion: Name Components: Family */
   $handler->display->display_options['sorts']['field_staff_profile_name_family']['id'] = 'field_staff_profile_name_family';
   $handler->display->display_options['sorts']['field_staff_profile_name_family']['table'] = 'field_data_field_staff_profile_name';
   $handler->display->display_options['sorts']['field_staff_profile_name_family']['field'] = 'field_staff_profile_name_family';

@@ -366,7 +366,7 @@ function library_course_profile_views_default_views() {
   $handler->display->display_options['filters']['field_course_semester_tid']['table'] = 'field_data_field_course_semester';
   $handler->display->display_options['filters']['field_course_semester_tid']['field'] = 'field_course_semester_tid';
   $handler->display->display_options['filters']['field_course_semester_tid']['value'] = array(
-    41 => '41',
+    50 => '50',
   );
   $handler->display->display_options['filters']['field_course_semester_tid']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_course_semester_tid']['expose']['operator_id'] = 'field_course_semester_tid_op';
@@ -379,9 +379,11 @@ function library_course_profile_views_default_views() {
     3 => 0,
     4 => 0,
     5 => 0,
+    10 => 0,
     6 => 0,
     7 => 0,
     8 => 0,
+    9 => 0,
   );
   $handler->display->display_options['filters']['field_course_semester_tid']['type'] = 'select';
   $handler->display->display_options['filters']['field_course_semester_tid']['vocabulary'] = 'semester';

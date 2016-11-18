@@ -134,7 +134,7 @@ function library_manuscript_collection_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<p>This area contains over 175 manuscript collections, comprising nearly 1800 linear feet of material, plus a number of individual manuscript items. Each of these collections is described in brief on ODYsseus the Libraries’ online catalog. Additionally, many have detailed finding aids, searchable here. Others will be added to this list as they are completed. If you find you have questions about the collections after you have read the catalog entries or finding aids, please contact us.
+  $handler->display->display_options['header']['area']['content'] = '<p>This area contains 200 manuscript collections, comprising nearly 1800 linear feet of material, plus a number of individual manuscript items. Each of these collections is described in brief on ODYsseus the Libraries’ online catalog. Additionally, many have detailed finding aids, searchable here. Others will be added to this list as they are completed. If you find you have questions about the collections after you have read the catalog entries or finding aids, please contact us.
 
 Mark McMurray, Curator of Special Collections and University Archivist
 Voice: (315) 229-5476 e-mail: mcm@stlawu.edu

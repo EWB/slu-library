@@ -17,38 +17,6 @@ function library_special_collections_search_cluster_apachesolr_environments() {
   $environment->url = 'http://localhost:8983/solr/library2';
   $environment->service_class = '';
   $environment->conf = array(
-    'apachesolr_index_last' => array(
-      'comment' => array(
-        'last_changed' => 0,
-        'last_entity_id' => 0,
-      ),
-      'node' => array(
-        'last_changed' => '1366836215',
-        'last_entity_id' => '788',
-      ),
-      'file' => array(
-        'last_changed' => 0,
-        'last_entity_id' => 0,
-      ),
-      'taxonomy_term' => array(
-        'last_changed' => 0,
-        'last_entity_id' => 0,
-      ),
-      'taxonomy_vocabulary' => array(
-        'last_changed' => 0,
-        'last_entity_id' => 0,
-      ),
-      'user' => array(
-        'last_changed' => 0,
-        'last_entity_id' => 0,
-      ),
-      'wysiwyg_profile' => array(
-        'last_changed' => 0,
-        'last_entity_id' => 0,
-      ),
-    ),
-    'apachesolr_index_updated' => 1366901380,
-    'apachesolr_last_optimize' => 1366834567,
     'apachesolr_read_only' => '0',
   );
   $environment->index_bundles = array(

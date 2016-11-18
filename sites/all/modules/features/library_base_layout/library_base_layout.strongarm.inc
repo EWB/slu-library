@@ -203,14 +203,14 @@ function library_base_layout_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'nice_menus_menu_1';
-  $strongarm->value = 'menu-my-accounts';
+  $strongarm->value = 'menu-my-accounts:0';
   $export['nice_menus_menu_1'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'nice_menus_menu_2';
-  $strongarm->value = 'menu-menu';
+  $strongarm->value = 'menu-menu:0';
   $export['nice_menus_menu_2'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -746,6 +746,16 @@ function library_base_layout_strongarm() {
     'favicon_mimetype' => 'image/vnd.microsoft.icon',
   );
   $export['theme_slu_libraries_theme_settings'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'xmlsitemap_settings_menu_link_menu-menu';
+  $strongarm->value = array(
+    'status' => '1',
+    'priority' => '0.5',
+  );
+  $export['xmlsitemap_settings_menu_link_menu-menu'] = $strongarm;
 
   return $export;
 }

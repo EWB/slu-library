@@ -10,7 +10,7 @@
 function base_wysiwyg_editor_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: show text format dropdown.
+  // Exported permission: 'show text format dropdown'.
   $permissions['show text format dropdown'] = array(
     'name' => 'show text format dropdown',
     'roles' => array(),

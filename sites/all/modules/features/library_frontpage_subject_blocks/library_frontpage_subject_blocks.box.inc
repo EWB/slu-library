@@ -35,7 +35,7 @@ function library_frontpage_subject_blocks_default_box() {
   $box->description = 'Humanities Links';
   $box->options = array(
     'body' => array(
-      'value' => '<ul><li><a href="./resources/english">English</a></li><li><a href="./resources/film-studies">Film Studies</a></li><li><a href="./resources/fine-arts">Fine Arts</a></li><li><a href="./resources/history">History</a></li><li><a href="./resources/modern-languages-and-literatures">Modern Languages &amp; Literatures</a></li><li><a href="./resources/music">Music</a></li><li><a href="./resources/performance-and-communication-arts">Performance &amp; Communication Arts</a></li><li><a href="./resources/philosophy">Philosophy</a></li><li><a href="./resources/religious-studies">Religious Studies</a></li></ul>',
+      'value' => '<ul><li><a href="./resources/art-and-art-history">Art &amp; Art History</a></li><li><a href="./resources/english">English</a></li><li><a href="./resources/film-studies">Film Studies</a></li><li><a href="./resources/fine-arts">Fine Arts</a></li><li><a href="./resources/history">History</a></li><li><a href="./resources/modern-languages-and-literatures">Modern Languages &amp; Literatures</a></li><li><a href="./resources/music">Music</a></li><li><a href="./resources/performance-and-communication-arts">Performance &amp; Communication Arts</a></li><li><a href="./resources/philosophy">Philosophy</a></li><li><a href="./resources/religious-studies">Religious Studies</a></li></ul>',
       'format' => 'full_html',
     ),
     'additional_classes' => '',
@@ -51,7 +51,7 @@ function library_frontpage_subject_blocks_default_box() {
   $box->description = 'Interdisciplinary Links';
   $box->options = array(
     'body' => array(
-      'value' => '<ul><li><a href="./resources/african-studies">African Studies</a></li><li><a href="./resources/asian-studies">Asian Studies</a></li><li><a href="./resources/canadian-studies">Canadian Studies</a></li><li><a href="./resources/CLAS">CLAS</a></li><li><a href="./resources/environmental-studies">Environmental Studies</a></li><li><a href="./resources/european-studies">European Studies</a></li><li><a href="./resources/gender-studies">Gender Studies</a></li><li><a href="./resources/global-studies">Global Studies</a></li><li><a href="./resources/native-american-studies">Native American Studies</a></li><li><a href="./resources/outdoor-studies">Outdoor Studies</a></li><li><a href="./resources/sports-studies">Sports Studies</a></li><li><a href="./resources/US-cultural-and-ethnic-studies">US Cultural &amp; Ethnic Studies</a></li></ul>',
+      'value' => '<ul><li><a href="./resources/african-studies">African Studies</a></li><li><a href="./resources/asian-studies">Asian Studies</a></li><li><a href="./resources/canadian-studies">Canadian Studies</a></li><li><a href="./resources/CLAS">CLAS</a></li><li><a href="./resources/environmental-studies">Environmental Studies</a></li><li><a href="./resources/european-studies">European Studies</a></li><li><a href="./resources/gender-and-sexuality-studies">Gender &amp; Sexuality Studies</a></li><li><a href="./resources/global-studies">Global Studies</a></li><li><a href="./resources/native-american-studies">Native American Studies</a></li><li><a href="./resources/outdoor-studies">Outdoor Studies</a></li><li><a href="./resources/sports-studies">Sports Studies</a></li><li><a href="./resources/US-cultural-and-ethnic-studies">US Cultural &amp; Ethnic Studies</a></li></ul>',
       'format' => 'full_html',
     ),
     'additional_classes' => '',

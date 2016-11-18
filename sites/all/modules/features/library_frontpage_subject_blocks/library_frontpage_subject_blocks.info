@@ -2,25 +2,19 @@ name = Library Frontpage Subject Blocks
 description = Links to resource pages by subject
 core = 7.x
 package = Features
-php = 5.2.4
-version = 7.x-1.0-beta1
+version = unknown
+project = library_frontpage_subject_blocks
 dependencies[] = boxes
 dependencies[] = ctools
 <<<<<<< HEAD
 version = 7.x-1.0
 >>>>>>> 7ba0f6aed8827bbf56490b251fdcb4184a499214
 project = library_frontpage_subject_blocks
+datestamp = 1358536205
 features[box][] = library_general_sources_links
 features[box][] = library_humanities_links
 features[box][] = library_interdisciplinary_links
 features[box][] = library_sciences_links
 features[box][] = library_social_sciences_links
 features[ctools][] = boxes:box:1
-features[features_api][] = api:1
-
-
-; Information added by drush on 2013-01-18
-version = "unknown"
-project = "library_frontpage_subject_blocks"
-datestamp = "1358536205"
-
+features[features_api][] = api:2

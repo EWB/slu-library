@@ -26,7 +26,15 @@ function base_slideshow_views_default_views() {
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
     3 => '3',
+    1 => '1',
+    2 => '2',
+    5 => '5',
+    10 => '10',
     4 => '4',
+    7 => '7',
+    6 => '6',
+    9 => '9',
+    8 => '8',
   );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -156,7 +164,7 @@ function base_slideshow_views_default_views() {
   /* Display: Published slide sorter */
   $handler = $view->new_display('block', 'Published slide sorter', 'block_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Published slide sorter';
+  $handler->display->display_options['title'] = 'Published slide sorter - SC';
   $handler->display->display_options['display_description'] = 'A draggable view to sort published slides.';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
@@ -247,7 +255,7 @@ function base_slideshow_views_default_views() {
   );
   $handler->display->display_options['filters']['field_tags_tid']['type'] = 'select';
   $handler->display->display_options['filters']['field_tags_tid']['vocabulary'] = 'tags';
-  $handler->display->display_options['block_description'] = 'Published slide sorter';
+  $handler->display->display_options['block_description'] = 'Published slide sorter - SC';
 
   /* Display: Unpublished slides */
   $handler = $view->new_display('block', 'Unpublished slides', 'block_2');
@@ -430,6 +438,130 @@ function base_slideshow_views_default_views() {
     0 => '105',
   );
   $handler->display->display_options['filters']['field_tags_tid']['vocabulary'] = 'tags';
+
+  /* Display: GIS */
+  $handler = $view->new_display('block', 'GIS', 'block_6');
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'slideshow_slide' => 'slideshow_slide',
+  );
+  /* Filter criterion: Content: Tags (field_tags) */
+  $handler->display->display_options['filters']['field_tags_tid']['id'] = 'field_tags_tid';
+  $handler->display->display_options['filters']['field_tags_tid']['table'] = 'field_data_field_tags';
+  $handler->display->display_options['filters']['field_tags_tid']['field'] = 'field_tags_tid';
+  $handler->display->display_options['filters']['field_tags_tid']['value'] = array(
+    95 => '95',
+  );
+  $handler->display->display_options['filters']['field_tags_tid']['type'] = 'select';
+  $handler->display->display_options['filters']['field_tags_tid']['vocabulary'] = 'tags';
+
+  /* Display: Published slide sorter */
+  $handler = $view->new_display('block', 'Published slide sorter', 'block_7');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Published slide sorter - GIS';
+  $handler->display->display_options['display_description'] = 'A draggable view to sort published slides.';
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'draggableviews' => 'draggableviews',
+    'field_slideshow_image' => 'field_slideshow_image',
+    'title' => 'title',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'draggableviews' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_slideshow_image' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'title' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['override'] = FALSE;
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Draggableviews: Content */
+  $handler->display->display_options['fields']['draggableviews']['id'] = 'draggableviews';
+  $handler->display->display_options['fields']['draggableviews']['table'] = 'node';
+  $handler->display->display_options['fields']['draggableviews']['field'] = 'draggableviews';
+  $handler->display->display_options['fields']['draggableviews']['label'] = '';
+  $handler->display->display_options['fields']['draggableviews']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['draggableviews']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['draggableviews']['hide_alter_empty'] = FALSE;
+  $handler->display->display_options['fields']['draggableviews']['draggableviews']['ajax'] = 0;
+  /* Field: Content: Slideshow Image */
+  $handler->display->display_options['fields']['field_slideshow_image']['id'] = 'field_slideshow_image';
+  $handler->display->display_options['fields']['field_slideshow_image']['table'] = 'field_data_field_slideshow_image';
+  $handler->display->display_options['fields']['field_slideshow_image']['field'] = 'field_slideshow_image';
+  $handler->display->display_options['fields']['field_slideshow_image']['label'] = '';
+  $handler->display->display_options['fields']['field_slideshow_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_slideshow_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_slideshow_image']['settings'] = array(
+    'image_style' => 'thumbnail',
+    'image_link' => 'content',
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'slideshow_slide' => 'slideshow_slide',
+  );
+  /* Filter criterion: Content: Tags (field_tags) */
+  $handler->display->display_options['filters']['field_tags_tid']['id'] = 'field_tags_tid';
+  $handler->display->display_options['filters']['field_tags_tid']['table'] = 'field_data_field_tags';
+  $handler->display->display_options['filters']['field_tags_tid']['field'] = 'field_tags_tid';
+  $handler->display->display_options['filters']['field_tags_tid']['value'] = array(
+    95 => '95',
+  );
+  $handler->display->display_options['filters']['field_tags_tid']['type'] = 'select';
+  $handler->display->display_options['filters']['field_tags_tid']['vocabulary'] = 'tags';
+  $handler->display->display_options['block_description'] = 'Published slide sorter - GIS';
   $export['slideshow'] = $view;
 
   return $export;
