@@ -2,7 +2,12 @@
 /*
 
 .sf-menu.sf-style-pomegranate li, .sf-menu.sf-style-pomegranate.sf-navbar {
-    background: url("../images/menu-bg.png") repeat-x scroll left top transparent;
+    background: #3c231c;
+    background: rgba(60,35,28,0.9);
+    background: -webkit-linear-gradient(rgba(84,54,46,0.9),rgba(60,35,28,0.9));
+    background: -o-linear-gradient(rgba(84,54,46,0.9),rgba(60,35,28,0.9));
+    background: -moz-linear-gradient(rgba(84,54,46,0.9),rgba(60,35,28,0.9));
+    background: linear-gradient(rgba(84,54,46,0.9),rgba(60,35,28,0.9));
     border-radius: 5px 5px 5px 5px;
     display: block !important;
     height: 43px;
@@ -14,7 +19,12 @@
 }*/
 
 /*.sf-menu.sf-style-pomegranate  {
-            background: url("../images/menu-bg.png") repeat-x scroll left top transparent;
+    background: #3c231c;
+    background: rgba(60,35,28,0.9);
+    background: -webkit-linear-gradient(rgba(84,54,46,0.9),rgba(60,35,28,0.9));
+    background: -o-linear-gradient(rgba(84,54,46,0.9),rgba(60,35,28,0.9));
+    background: -moz-linear-gradient(rgba(84,54,46,0.9),rgba(60,35,28,0.9));
+    background: linear-gradient(rgba(84,54,46,0.9),rgba(60,35,28,0.9));
     border-radius: 5px 5px 5px 5px;
 
 }*/
@@ -114,8 +124,12 @@
     padding: 0;
 }
 .sf-menu.sf-style-pomegranate li, .sf-menu.sf-style-pomegranate.sf-navbar {
-        background: none repeat scroll 0 0 #79001C;
-        background: url("../images/menu-bg.png") repeat-x scroll left top transparent;
+    background: #3c231c;
+    background: rgba(60,35,28,0.9);
+/*    background: -webkit-linear-gradient(rgba(84,54,46,0.9),rgba(60,35,28,0.9));
+    background: -o-linear-gradient(rgba(84,54,46,0.9),rgba(60,35,28,0.9));
+    background: -moz-linear-gradient(rgba(84,54,46,0.9),rgba(60,35,28,0.9));
+    background: linear-gradient(rgba(84,54,46,0.9),rgba(60,35,28,0.9));*/
         height: 38px;
         width: auto;
 
@@ -132,10 +146,7 @@ color: #000000;
 
 }
 .sf-menu.sf-style-pomegranate li:hover, .sf-menu.sf-style-pomegranate li.sfHover, .sf-menu.sf-style-pomegranate li.active a, .sf-menu.sf-style-pomegranate a:focus, .sf-menu.sf-style-pomegranate a:hover, .sf-menu.sf-style-pomegranate a:active, .sf-menu.sf-style-pomegranate.sf-navbar li li {
-/*    background: none repeat scroll 0 0 #4C0012;
-    color: #FFFFFF;*/
     background: none repeat scroll 0 0 #F0F0F0;
-    color:#000000;
     color: #4b2b23;
     text-shadow: none;
 }

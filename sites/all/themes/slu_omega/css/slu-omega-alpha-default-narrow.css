@@ -192,9 +192,7 @@ html {
 }
 
 #zone-menu {
-    background: url("../images/black-50.png") repeat scroll left top transparent;
-
- 
+    background: rgba(0,0,0,.85);
 }
 
 .front .container-12 .grid-2 {
