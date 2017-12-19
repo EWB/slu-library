@@ -1,0 +1,16 @@
+/* Add a light blue outline to all elements that can be the focus of the keyboard */
+:focus {
+  outline: #4D90FE auto 5px !important;
+}
+ul.nice-menu .container a {
+  text-shadow: none;
+}
+
+/* Fix Main nav dropdown to have same bg/fg colors when hidden and when shown */
+ul.nice-menu-down li.menuparent li a,
+ul.nice-menu-down li.menuparent li a.active {
+  color: #4b2b23;
+}
+ul.nice-menu-down .container {
+  background: #F0F0F0;
+}
